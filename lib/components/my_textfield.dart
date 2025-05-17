@@ -2,10 +2,16 @@ import 'package:flutter/material.dart';
 
 class MyTextfield extends StatelessWidget {
   final String text;
+  final void Function() onTap;
+  final void Function() onPressed;
+  final TextSpan? richText;
 
   const MyTextfield({
     super.key,
     required this.text,
+    required this.onPressed,
+    required this.onTap,
+    this.richText,
   });
 
   @override
@@ -25,24 +31,27 @@ class MyTextfield extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.copy),
-          ),
           Expanded(
-            child: Text(
-              text,
-              style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.w500,
-                fontSize: 12,
+            child: GestureDetector(
+              onTap: onTap,
+              child: Center(
+                child: richText != null
+                    ? RichText(text: richText!)
+                    : Text(
+                        text,
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
               ),
-              textAlign: TextAlign.center,
             ),
           ),
           IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.refresh),
+            onPressed: onPressed,
+            icon: const Icon(Icons.refresh),
           ),
         ],
       ),
