@@ -17,11 +17,11 @@ class MyToggler extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: 100,
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        width: 130,
+        padding: const EdgeInsets.symmetric(vertical: 10),
         margin: const EdgeInsets.all(8),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(6),
           color: isSelected 
           ? Theme.of(context).colorScheme.tertiary 
           : Theme.of(context).colorScheme.secondary,

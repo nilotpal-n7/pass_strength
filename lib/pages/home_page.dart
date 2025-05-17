@@ -1,5 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pass_strength/components/my_toggler.dart';
+import 'package:pass_strength/themes/theme_provider.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -10,10 +13,17 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   bool isRandom = true;
+  double sliderValue = 6;
   
   void toggleRandom(bool isRandomSelected) {
     setState(() {
       isRandom = isRandomSelected;
+    });
+  }
+
+  void toggleSlider(double value) {
+    setState(() {
+      sliderValue = value;
     });
   }
 
@@ -29,6 +39,17 @@ class _HomePageState extends State<HomePage> {
             fontWeight: FontWeight.bold,
           ),
         ),
+        actions: [
+          Transform.scale(
+            scale: 0.7,
+            child: CupertinoSwitch(
+              value: Provider.of<ThemeProvider>(context).isDarkMode,
+              onChanged: (value) => Provider.of<ThemeProvider>(context, listen: false).toggleTheme(),
+              activeTrackColor: Colors.blueAccent.shade400,
+              
+            ),
+          )
+        ],
         centerTitle: true,
         backgroundColor: Theme.of(context).colorScheme.surface,
         foregroundColor: Theme.of(context).colorScheme.primary,
@@ -74,6 +95,22 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
               ),
+              const SizedBox(height: 10),
+              Text(
+                'Customize your new password',
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.inversePrimary,
+                ),
+              ),
+              const SizedBox(),
+              Slider(
+                value: sliderValue,
+                onChanged: (value) => toggleSlider(value),
+                min: 4,
+                max: 16,
+                thumbColor: Theme.of(context).colorScheme.inversePrimary,
+              ),
+
             ],
           ),
         ),
