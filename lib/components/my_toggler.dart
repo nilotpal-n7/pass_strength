@@ -4,12 +4,14 @@ class MyToggler extends StatelessWidget {
   final bool isSelected;
   final VoidCallback onTap;
   final String text;
+  final IconData icon;
 
   const MyToggler({
     super.key,
     required this.isSelected,
     required this.onTap,
     required this.text,
+    required this.icon,
   });
 
   @override
@@ -26,16 +28,27 @@ class MyToggler extends StatelessWidget {
           ? Theme.of(context).colorScheme.tertiary 
           : Theme.of(context).colorScheme.secondary,
         ),
-        child: Center(
-          child: Text(
-            text,
-            style: TextStyle(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              icon,
+              size: 20,
               color: isSelected
-              ? Theme.of(context).colorScheme.inversePrimary
-              : Theme.of(context).colorScheme.tertiary,
-              fontWeight: FontWeight.bold,
+                ? Theme.of(context).colorScheme.inversePrimary
+                : Theme.of(context).colorScheme.tertiary,
             ),
-          ),
+            const SizedBox(width: 4),
+            Text(
+              text,
+              style: TextStyle(
+                color: isSelected
+                ? Theme.of(context).colorScheme.inversePrimary
+                : Theme.of(context).colorScheme.tertiary,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
         ),
       ),
     );
