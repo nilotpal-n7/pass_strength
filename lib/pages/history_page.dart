@@ -53,7 +53,7 @@ class _HistoryPageState extends State<HistoryPage> {
           ),
         )
         else SizedBox(
-          height: history.length > 5 ? 325 : history.length * 60.0 + 20,
+          height: history.length > 5 ? 400 : history.length * 60.0 + 20,
           child: ListView.builder(
             itemCount: history.length,
             itemBuilder: (context, index) {

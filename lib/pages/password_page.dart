@@ -5,6 +5,7 @@ import 'package:Passify/components/my_textfield.dart';
 import 'package:Passify/services/storage_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:password_strength_checker/password_strength_checker.dart';
 import 'package:provider/provider.dart';
 
 class PasswordPage extends StatefulWidget {
@@ -19,6 +20,7 @@ class _PasswordPageState extends State<PasswordPage> {
   final String capitalAlpha = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
   final String numbers = '1234567890';
   final String symbols = '~`!@#\$%^&*()_-+=<,>.?/:;"\'{[}]|\\';
+  final passNotifier = ValueNotifier<PasswordStrength?>(null);
 
   double sliderValue = 6;
   bool isSmallAlpha = true;
@@ -32,6 +34,7 @@ class _PasswordPageState extends State<PasswordPage> {
   void initState() {
     super.initState();
     loadSettings();
+    passNotifier.value = PasswordStrength.calculate(text: generatedPassword);
   }
 
   void loadSettings() async {
@@ -41,6 +44,7 @@ class _PasswordPageState extends State<PasswordPage> {
     isSymbols = await StorageService.loadBool('isSymbols');
     sliderValue = await StorageService.loadDouble('sliderValue');
     generatedPassword = await StorageService.loadString('currentPassword');
+    passNotifier.value = PasswordStrength.calculate(text: generatedPassword);
     setState(() {});
   }
 
@@ -115,6 +119,8 @@ class _PasswordPageState extends State<PasswordPage> {
   void setPassword(String pass) {
     setState(() {
       generatedPassword = pass;
+      saveSettings();
+      passNotifier.value = PasswordStrength.calculate(text: generatedPassword);
     });
 
     Provider.of<HistoryProvider>(context, listen: false).addPassword(pass);
@@ -232,6 +238,10 @@ class _PasswordPageState extends State<PasswordPage> {
           richText: buildStyledPassword(generatedPassword),
           onPressed: generatePassword,
           onTap: () => onTap(context),
+        ),
+        const SizedBox(height: 20),
+        PasswordStrengthChecker(
+          strength: passNotifier,
         ),
       ],
     );
