@@ -1,7 +1,7 @@
+import 'package:Passify/components/toast_wrapper.dart';
+import 'package:Passify/pages/home_page.dart';
+import 'package:Passify/services/storage_service.dart';
 import 'package:flutter/material.dart';
-import 'package:pass_strength/components/toast_wrapper.dart';
-import 'package:pass_strength/pages/home_page.dart';
-import 'package:pass_strength/services/storage_service.dart';
 import 'package:provider/provider.dart';
 
 void main() {

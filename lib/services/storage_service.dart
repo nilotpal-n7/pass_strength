@@ -1,6 +1,6 @@
+import 'package:Passify/themes/dark_mode.dart';
+import 'package:Passify/themes/light_mode.dart';
 import 'package:flutter/material.dart';
-import 'package:pass_strength/themes/dark_mode.dart';
-import 'package:pass_strength/themes/light_mode.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class StorageService {
@@ -56,13 +56,19 @@ class HistoryProvider extends ChangeNotifier {
 
   void addPassword(String password) {
     _history.insert(0, password);
-    if (_history.length > 20) _history.removeLast();
+    if (_history.length > 10) _history.removeLast();
     StorageService.saveStringList('history', _history);
     notifyListeners();
   }
 
   void removePasswordAt(int index) {
     _history.removeAt(index);
+    StorageService.saveStringList('history', _history);
+    notifyListeners();
+  }
+
+  void clearPassHistory() {
+    _history.clear();
     StorageService.saveStringList('history', _history);
     notifyListeners();
   }

@@ -13,7 +13,7 @@ class AnimatedToast {
   }) {
     final overlay = Overlay.of(context);
     final vsync = ToastWrapper.of(context);
-    if (overlay == null || vsync == null) return;
+    if (vsync == null) return;
 
     // Cancel and clean up any existing toast
     try {

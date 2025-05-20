@@ -1,9 +1,9 @@
+import 'package:Passify/components/my_switch.dart';
+import 'package:Passify/components/my_toggler.dart';
+import 'package:Passify/pages/history_page.dart';
+import 'package:Passify/pages/password_page.dart';
+import 'package:Passify/services/storage_service.dart';
 import 'package:flutter/material.dart';
-import 'package:pass_strength/components/my_switch.dart';
-import 'package:pass_strength/components/my_toggler.dart';
-import 'package:pass_strength/pages/history_page.dart';
-import 'package:pass_strength/pages/password_page.dart';
-import 'package:pass_strength/services/storage_service.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -15,21 +15,27 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   bool isRandom = true;
-  
+
+  @override
+  void initState() {
+    super.initState();
+    loadSettings();
+  }
+
+  void loadSettings() async {
+    isRandom = await StorageService.loadBool('isRandom');
+    setState(() {});
+  }
+
+  void saveSettings() {
+    StorageService.saveBool('isRandom', isRandom);
+  }
+
   void toggleRandom(bool isRandomSelected) {
     setState(() {
       isRandom = isRandomSelected;
       saveSettings();
     });
-  }
-
-   void loadSettings() async {
-    isRandom = await StorageService.loadBool('isRandom');
-    setState(() {}); // 👈 update UI
-  }
-
-  void saveSettings() {
-    StorageService.saveBool('isRandom', isRandom);
   }
 
   @override
@@ -65,7 +71,7 @@ class _HomePageState extends State<HomePage> {
               borderRadius: BorderRadius.circular(12),
             ),
             margin: const EdgeInsets.symmetric(horizontal: 25, vertical: 30),
-            padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 50),
+            padding: const EdgeInsets.only(top: 50, bottom: 10, left: 25, right: 25),
             child: Column(
               children: [
                 Text(
@@ -100,6 +106,24 @@ class _HomePageState extends State<HomePage> {
                 ),
                 const SizedBox(height: 50),
                 isRandom ? PasswordPage() : HistoryPage(),
+                const SizedBox(height: 25),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Click to Copy',
+                      style: TextStyle(
+                        fontSize: 10,
+                      ),
+                    ),
+                    Text(
+                      'Slide to delete',
+                      style: TextStyle(
+                        fontSize: 10,
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),

@@ -1,10 +1,10 @@
 import 'dart:math';
+import 'package:Passify/components/animated_toast.dart';
+import 'package:Passify/components/my_switch.dart';
+import 'package:Passify/components/my_textfield.dart';
+import 'package:Passify/services/storage_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:pass_strength/components/animated_toast.dart';
-import 'package:pass_strength/components/my_switch.dart';
-import 'package:pass_strength/components/my_textfield.dart';
-import 'package:pass_strength/services/storage_service.dart';
 import 'package:provider/provider.dart';
 
 class PasswordPage extends StatefulWidget {
@@ -31,7 +31,7 @@ class _PasswordPageState extends State<PasswordPage> {
   @override
   void initState() {
     super.initState();
-    loadSettings(); // 👈 call on init
+    loadSettings();
   }
 
   void loadSettings() async {
@@ -41,7 +41,7 @@ class _PasswordPageState extends State<PasswordPage> {
     isSymbols = await StorageService.loadBool('isSymbols');
     sliderValue = await StorageService.loadDouble('sliderValue');
     generatedPassword = await StorageService.loadString('currentPassword');
-    setState(() {}); // 👈 update UI
+    setState(() {});
   }
 
   void saveSettings() {
